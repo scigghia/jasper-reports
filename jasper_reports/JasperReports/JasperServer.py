@@ -71,3 +71,4 @@ class JasperServer:
                     self.error("EXCEPTION: %s %s" % ( str(e), str(e.args) ))
                     pass
 
+# vim:noexpandtab:smartindent:tabstop=8:softtabstop=8:shiftwidth=8:
