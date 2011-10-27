@@ -1,16 +1,16 @@
-# Croatian translation for openobject-client-kde
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Arabic translation for openobject-client-kde
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the openobject-client-kde package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-kde\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-06-27 14:39+0000\n"
-"PO-Revision-Date: 2010-11-21 11:11+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Croatian <hr@li.org>\n"
+"PO-Revision-Date: 2011-08-13 23:30+0000\n"
+"Last-Translator: kifcaliph <kifcaliph@hotmail.com>\n"
+"Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,49 +20,49 @@ msgstr ""
 #. module: jasper_reports
 #: field:ir.actions.report.xml,jasper_report:0
 msgid "Is Jasper Report?"
-msgstr ""
+msgstr "هل هو تقرير Jasper؟"
 
 #. module: jasper_reports
 #: constraint:ir.model:0
 msgid ""
 "The Object name must start with x_ and not contain any special character !"
-msgstr ""
+msgstr "اسم الكائن يجب أن يبدأ بـ \"_x\" ولا يحتوي على رموز خاصة !"
 
 #. module: jasper_reports
 #: wizard_button:jasper_create_data_template,init,create:0
 msgid "Create"
-msgstr ""
+msgstr "إنشاء"
 
 #. module: jasper_reports
 #: field:ir.actions.report.xml,jasper_output:0
 msgid "Jasper Output"
-msgstr ""
+msgstr "مخرجات Jasper"
 
 #. module: jasper_reports
 #: constraint:ir.actions.act_window:0
 msgid "Invalid model name in the action definition."
-msgstr ""
+msgstr "اسم نموذج خاطئ في تعريف الإجراء."
 
 #. module: jasper_reports
 #: selection:ir.actions.report.xml,jasper_output:0
 msgid "XLS"
-msgstr ""
+msgstr "XLS"
 
 #. module: jasper_reports
 #: view:ir.actions.report.xml:0
 #: field:ir.actions.report.xml,jasper_file_ids:0
 msgid "Files"
-msgstr ""
+msgstr "ملفّات"
 
 #. module: jasper_reports
 #: selection:ir.actions.report.xml,jasper_output:0
 msgid "RTF"
-msgstr ""
+msgstr "RTF"
 
 #. module: jasper_reports
 #: view:ir.actions.report.xml:0
 msgid "Update from attachments"
-msgstr ""
+msgstr "تحديث من المرفقات"
 
 #. module: jasper_reports
 #: model:ir.actions.act_window,name:jasper_reports.ir_action_report_jasper
@@ -71,59 +71,59 @@ msgstr ""
 #: model:ir.ui.menu,name:jasper_reports.jasper_reports_menu
 #: model:ir.ui.menu,name:jasper_reports.menu_ir_action_report_jasper
 msgid "Jasper Reports"
-msgstr ""
+msgstr "تقارير Jasper"
 
 #. module: jasper_reports
 #: selection:ir.actions.report.xml,jasper_output:0
 msgid "ODS"
-msgstr ""
+msgstr "ODS"
 
 #. module: jasper_reports
 #: selection:ir.actions.report.xml,jasper_output:0
 msgid "ODT"
-msgstr ""
+msgstr "ODT"
 
 #. module: jasper_reports
 #: code:addons/jasper_reports/report_xml.py:0
 #, python-format
 msgid "There is more than one report marked as default"
-msgstr ""
+msgstr "هناك أكثر من تقرير موضوع كإفتراضي"
 
 #. module: jasper_reports
 #: selection:ir.actions.report.xml,jasper_output:0
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #. module: jasper_reports
 #: code:addons/jasper_reports/wizard/create_data_template.py:0
 #, python-format
 msgid "User"
-msgstr ""
+msgstr "مستخدِم"
 
 #. module: jasper_reports
 #: view:ir.actions.report.xml:0
 msgid "Groups"
-msgstr ""
+msgstr "مجموعات"
 
 #. module: jasper_reports
 #: field:ir.actions.report.xml.file,report_id:0
 msgid "Report"
-msgstr ""
+msgstr "تقرير"
 
 #. module: jasper_reports
 #: wizard_field:jasper_create_data_template,create,data:0
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #. module: jasper_reports
 #: constraint:ir.ui.view:0
 msgid "Invalid XML for View Architecture!"
-msgstr ""
+msgstr "هناك خطأ في بيانات الـ XML للعرض!"
 
 #. module: jasper_reports
 #: model:ir.model,name:jasper_reports.model_ir_actions_report_xml_file
 msgid "ir.actions.report.xml.file"
-msgstr ""
+msgstr "ir.actions.report.xml.file"
 
 #. module: jasper_reports
 #: model:ir.actions.wizard,name:jasper_reports.jasper_create_data_template_action
@@ -131,85 +131,85 @@ msgstr ""
 #: wizard_view:jasper_create_data_template,create:0
 #: wizard_view:jasper_create_data_template,init:0
 msgid "Create Data Template"
-msgstr ""
+msgstr "إنشاء قالب للبيانات"
 
 #. module: jasper_reports
 #: field:ir.actions.report.xml.file,default:0
 msgid "Default"
-msgstr ""
+msgstr "إفتراضي"
 
 #. module: jasper_reports
 #: code:addons/jasper_reports/report_xml.py:0
 #, python-format
 msgid "No report has been marked as default."
-msgstr ""
+msgstr "لم يتم إتخاذ تقرير كإفتراضي."
 
 #. module: jasper_reports
 #: wizard_field:jasper_create_data_template,init,depth:0
 msgid "Depth"
-msgstr ""
+msgstr "المستوى"
 
 #. module: jasper_reports
 #: code:addons/jasper_reports/report_xml.py:0
 #, python-format
 msgid "Error"
-msgstr ""
+msgstr "خطأ"
 
 #. module: jasper_reports
 #: selection:ir.actions.report.xml,jasper_output:0
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. module: jasper_reports
 #: field:ir.actions.report.xml,jasper_model_id:0
 #: wizard_field:jasper_create_data_template,create,model:0
 #: wizard_field:jasper_create_data_template,init,model:0
 msgid "Model"
-msgstr ""
+msgstr "نموذج"
 
 #. module: jasper_reports
 #: selection:ir.actions.report.xml,jasper_output:0
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. module: jasper_reports
 #: view:ir.actions.report.xml.file:0
 msgid "Jasper Reports File"
-msgstr ""
+msgstr "ملف تقارير Jasper"
 
 #. module: jasper_reports
 #: code:addons/jasper_reports/wizard/create_data_template.py:0
 #, python-format
 msgid "Attachments"
-msgstr ""
+msgstr "مرفقات"
 
 #. module: jasper_reports
 #: selection:ir.actions.report.xml,jasper_output:0
 msgid "Text"
-msgstr ""
+msgstr "نصّ"
 
 #. module: jasper_reports
 #: field:ir.actions.report.xml.file,filename:0
 #: wizard_field:jasper_create_data_template,create,filename:0
 msgid "File Name"
-msgstr ""
+msgstr "اسم الملف"
 
 #. module: jasper_reports
 #: wizard_button:jasper_create_data_template,create,end:0
 msgid "Accept"
-msgstr ""
+msgstr "قبول"
 
 #. module: jasper_reports
 #: model:ir.module.module,description:jasper_reports.module_meta_information
 msgid "This module integrates Jasper Reports with OpenERP."
-msgstr ""
+msgstr "هذا البرنامج يدمج تقارير integratesمع نظام OpenERP."
 
 #. module: jasper_reports
 #: field:ir.actions.report.xml.file,file:0
 msgid "File"
-msgstr ""
+msgstr "ملف"
 
 #. module: jasper_reports
 #: wizard_button:jasper_create_data_template,init,end:0
 msgid "Cancel"
-msgstr ""
+msgstr "إلغاء"
