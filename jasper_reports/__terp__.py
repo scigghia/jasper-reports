@@ -1,6 +1,7 @@
 ##############################################################################
 #
-# Copyright (c) 2008 Albert Cervera i Areny <albert@nan-tic.com>
+# Copyright (c) 2008-2012 NaN Projectes de Programari Lliure, S.L.
+#                         http://www.NaN-tic.com
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -29,7 +30,7 @@
     "name" : "Jasper Reports",
     "version" : "0.1",
     "description" : "This module integrates Jasper Reports with OpenERP.",
-    "author" : "NaN",
+    "author" : "NaN·tic",
     "website" : "http://www.nan-tic.com",
     "depends" : ["base"],
     "category" : "Generic Modules/Jasper Reports",
