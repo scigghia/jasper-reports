@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2008-2012 NaN Projectes de Programari Lliure, S.L.
 #                         http://www.NaN-tic.com
+# Copyright (c) 2012 Omar Castiñeira Saavedra <omar@pexego.es>
+#                         Pexego Sistemas Informáticos http://www.pexego.es
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -31,10 +34,10 @@ import csv
 import copy
 import base64
 from xml.dom.minidom import getDOMImplementation
-import xml.dom.minidom
 from osv import orm, osv, fields
-import tempfile 
+import tempfile
 import codecs
+import logging
 
 from JasperReport import *
 from AbstractDataGenerator import *
@@ -51,18 +54,11 @@ class BrowseDataGenerator(AbstractDataGenerator):
         self._languages = []
         self.imageFiles = {}
         self.temporaryFiles = []
-
-        try:
-            # Do not depend on being called inside OpenERP server
-            import netsvc
-            self.logger = netsvc.Logger()
-            self.WARNING = netsvc.LOG_WARNING
-        except:
-            self.logger = None
+        self.logger = logging.getLogger(__name__)
     
     def warning(self, message):
         if self.logger:
-            self.logger.notifyChannel("jasper_reports", self.WARNING, message )
+            self.logger.warning("%s" % message)
         else:
             print 'JasperReports: %s' % message
 
@@ -84,6 +80,10 @@ class BrowseDataGenerator(AbstractDataGenerator):
                 context['lang'] = language
             value = model.read(self.cr, self.uid, [id], [field], context=context)
             values[ language ] = value[0][field] or ''
+
+            if model._columns[field]._type == 'selection' and model._columns[field].selection:
+                field_data = model.fields_get(self.cr, self.uid, allfields=[field], context=context)
+                values[ language ] = dict(field_data[field]['selection']).get(values[ language ],values[ language ])
 
         result = []
         for key, value in values.iteritems():

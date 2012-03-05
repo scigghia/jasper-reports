@@ -28,21 +28,12 @@
 ##############################################################################
 
 import os
-import csv
-import copy
 import base64
 import report
-import pooler
 from osv import orm, osv, fields
-import tools
-import tempfile 
-import codecs
-import sql_db
-import netsvc
 import jasper_report
 from tools.translate import _
 
-import string
 import unicodedata
 from xml.dom.minidom import getDOMImplementation
 

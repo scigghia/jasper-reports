@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2008-2012 NaN Projectes de Programari Lliure, S.L.
 #                         http://www.NaN-tic.com
+# Copyright (c) 2012 Omar Castiñeira Saavedra <omar@pexego.es>
+#                         Pexego Sistemas Informáticos http://www.pexego.es
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -26,9 +29,8 @@
 #
 ##############################################################################
 
-from service.http_server import reg_http_service, HttpDaemon
-from service.websrv_lib import HTTPDir
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from service.http_server import reg_http_service
+from BaseHTTPServer import BaseHTTPRequestHandler
 import netsvc
 import tools
 
@@ -36,7 +38,7 @@ class Message:
     def __init__(self):
         self.status = False
 
-class JasperHandler(netsvc.OpenERPDispatcher, BaseHTTPRequestHandler):
+class JasperHandler(BaseHTTPRequestHandler):
     cache = {}
 
     def __init__(self, request, client_address, server):
@@ -90,12 +92,12 @@ class JasperHandler(netsvc.OpenERPDispatcher, BaseHTTPRequestHandler):
             'lang': language,
         }
 
-        uid = self.dispatch('common', 'login', (database, user, password) )
-        result = self.dispatch('object', 'execute', (database, uid, password, 'ir.actions.report.xml', 'create_xml', model, depth, context) )
+        uid = netsvc.dispatch_rpc('common', 'login', (database, user, password))
+        result = netsvc.dispatch_rpc('object', 'execute', (database, uid, password, 'ir.actions.report.xml', 'create_xml', model, depth, context))
 
         if use_cache:
             self.cache[key] = result
 
         return result
 
-reg_http_service(HTTPDir('/jasper/', JasperHandler))
+reg_http_service('/jasper/', JasperHandler)

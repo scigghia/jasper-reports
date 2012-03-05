@@ -25,19 +25,16 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
+
 import os
-import csv
-import copy
-import base64
 import report
 import pooler
 from osv import orm, osv, fields
 import tools
-import tempfile 
-import codecs
-import sql_db
+import tempfile
 import netsvc
 import release
+import logging
 
 from JasperReports import *
 
@@ -70,7 +67,7 @@ class Report:
         If self.context contains "return_pages = True" it will return the number of pages
         of the generated report.
         """
-        logger = netsvc.Logger()
+        logger = logging.getLogger(__name__)
 
         # * Get report path *
         # Not only do we search the report by name but also ensure that 'report_rml' field
@@ -85,9 +82,11 @@ class Report:
             self.outputFormat = data['jasper_output']
         self.reportPath = data['report_rml']
         self.reportPath = os.path.join( self.addonsPath(), self.reportPath )
+        if not os.path.lexists(self.reportPath):
+            self.reportPath = self.addonsPath(path=data['report_rml'])
 
         # Get report information from the jrxml file
-        logger.notifyChannel("jasper_reports", netsvc.LOG_INFO, "Requested report: '%s'" % self.reportPath)
+        logger.info("Requested report: '%s'" % self.reportPath)
         self.report = JasperReport( self.reportPath )
 
         # Create temporary input (XML) and output (PDF) files 
@@ -97,7 +96,7 @@ class Report:
         os.close(fd)
         self.temporaryFiles.append( dataFile )
         self.temporaryFiles.append( outputFile )
-        logger.notifyChannel("jasper_reports", netsvc.LOG_INFO, "Temporary data file: '%s'" % dataFile)
+        logger.info("Temporary data file: '%s'" % dataFile)
 
         import time
         start = time.time()
@@ -121,7 +120,7 @@ class Report:
                 else:
                     message += 'without prefix '
                 message += 'for file %s' % subreportInfo['filename']
-                logger.notifyChannel("jasper_reports", netsvc.LOG_INFO, message)
+                logger.info("%s" % message)
 
                 fd, subreportDataFile = tempfile.mkstemp()
                 os.close(fd)
@@ -144,7 +143,7 @@ class Report:
         # Call the external java application that will generate the PDF file in outputFile
         pages = self.executeReport( dataFile, outputFile, subreportDataFiles )
         elapsed = (time.time() - start) / 60
-        logger.notifyChannel("jasper_reports", netsvc.LOG_INFO, "ELAPSED: '%f'" % elapsed )
+        logger.info("ELAPSED: %f" % elapsed)
 
         # Read data from the generated file and return it
         f = open( outputFile, 'rb')
@@ -159,8 +158,7 @@ class Report:
                 try:
                     os.unlink( file )
                 except os.error, e:
-                    logger = netsvc.Logger()
-                    logger.notifyChannel("jasper_reports", netsvc.LOG_WARNING, "Could not remove file '%s'." % file )
+                    logger.warning("Could not remove file '%s'." % file )
         self.temporaryFiles = []
 
         if self.context.get('return_pages'):
@@ -171,7 +169,13 @@ class Report:
     def path(self):
         return os.path.abspath(os.path.dirname(__file__))
 
-    def addonsPath(self):
+    def addonsPath(self, path=False):
+        if path:
+            report_module = path.split(os.path.sep)[0]
+            for addons_path in tools.config['addons_path'].split(','):
+                if os.path.lexists(addons_path+os.path.sep+report_module):
+                    return os.path.normpath( addons_path+os.path.sep+path )
+
         return os.path.dirname( self.path() )
 
     def systemUserName(self):

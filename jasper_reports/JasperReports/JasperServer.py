@@ -34,6 +34,7 @@ import socket
 import subprocess
 import xmlrpclib
 from tools.translate import _
+import logging
 
 class JasperServer:
     def __init__(self, port=8090):
@@ -41,18 +42,11 @@ class JasperServer:
         self.pidfile = None
         url = 'http://localhost:%d' % port
         self.proxy = xmlrpclib.ServerProxy( url, allow_none = True )
-
-        try:
-            # Do not depend on being called inside OpenERP server
-            import netsvc
-            self.logger = netsvc.Logger()
-            self.ERROR = netsvc.LOG_ERROR
-        except:
-            self.logger = None
+        self.logger = logging.getLogger(__name__)
 
     def error(self, message):
         if self.logger:
-            self.logger.notifyChannel("jasper_reports", self.ERROR, message )
+            self.logger.error("%s" % message )
         else:
             print 'JasperReports: %s' % message
 

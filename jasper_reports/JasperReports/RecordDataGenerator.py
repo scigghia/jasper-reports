@@ -26,10 +26,8 @@
 #
 ##############################################################################
 
-import os
 import csv
 from xml.dom.minidom import getDOMImplementation
-import xml.dom.minidom
 import codecs
 
 from JasperReport import *
