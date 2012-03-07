@@ -54,7 +54,7 @@ class Report:
         self.uid = uid
         self.ids = ids
         self.data = data
-        self.model = self.data['model']
+        self.model = self.data.get('model', False) or context.get('active_model', False)
         self.context = context or {}
         self.pool = pooler.get_pool( self.cr.dbname )
         self.reportPath = None
