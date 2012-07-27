@@ -237,18 +237,18 @@ class report_xml(osv.osv):
 
         if depth > 1 and modelName != 'Attachments':
             # Create relation with attachments
-            fieldNode = document.createElement( '%s-Attachments' % _('Attachments') )
+            fieldNode = document.createElement( '%s-Attachments' % self.unaccent(_('Attachments')) )
             parentNode.appendChild( fieldNode )
             self.generate_xml(cr, uid, context, pool, 'ir.attachment', fieldNode, document, depth-1, False)
 
         if first_call:
             # Create relation with user
-            fieldNode = document.createElement( '%s-User' % _('User') )
+            fieldNode = document.createElement( '%s-User' % self.unaccent(_('User')) )
             parentNode.appendChild( fieldNode )
             self.generate_xml(cr, uid, context, pool, 'res.users', fieldNode, document, depth-1, False)
 
             # Create special entries
-            fieldNode = document.createElement( '%s-Special' % _('Special') )
+            fieldNode = document.createElement( '%s-Special' % self.unaccent(_('Special')) )
             parentNode.appendChild( fieldNode )
 
             newNode = document.createElement('copy')
