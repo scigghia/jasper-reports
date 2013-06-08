@@ -3,6 +3,8 @@
 #
 # Copyright (c) 2008-2012 NaN Projectes de Programari Lliure, S.L.
 #                         http://www.NaN-tic.com
+# Copyright (C) 2013 Tadeus Prastowo <tadeus.prastowo@infi-nity.com>
+#                         Vikasa Infinity Anugrah <http://www.infi-nity.com>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -29,15 +31,25 @@
 
 import os
 import base64
-import report
-from osv import orm, osv, fields
-import jasper_report
-from tools.translate import _
+
+try:
+    import release
+    import report
+    from osv import orm, osv, fields
+    import jasper_report
+    from tools.translate import _
+except ImportError:
+    import openerp
+    from openerp import release
+    from openerp import report
+    from openerp.osv import orm, osv, fields
+    from openerp import jasper_report
+    from openerp.tools.translate import _
 
 import unicodedata
 from xml.dom.minidom import getDOMImplementation
 
-src_chars = """ '"()/*-+?¿!&$[]{}@#`'^:;<>=~%,\\""" 
+src_chars = """ '"()/*-+?¿!&$[]{}@#`'^:;<>=~%,\\"""
 src_chars = unicode( src_chars, 'iso-8859-1' )
 dst_chars = """________________________________"""
 dst_chars = unicode( dst_chars, 'iso-8859-1' )
@@ -180,7 +192,7 @@ class report_xml(osv.osv):
         model = pool.get(modelName)
         fields = model._columns.keys()
         fields += model._inherit_fields.keys()
-        # Remove duplicates because model may have fields with the 
+        # Remove duplicates because model may have fields with the
         # same name as it's parent
         fields = sorted( list( set( fields ) ) )
         for field in fields:
@@ -218,7 +230,7 @@ class report_xml(osv.osv):
                     newName = model._inherit_fields[field][2]._obj
                 self.generate_xml(cr, uid, context, pool, newName, fieldNode, document, depth-1, False)
                 continue
-            
+
             if fieldType == 'float':
                 value = '12345.67'
             elif fieldType == 'integer':

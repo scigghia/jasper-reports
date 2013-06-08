@@ -1,7 +1,10 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2008-2012 NaN Projectes de Programari Lliure, S.L.
 #                         http://www.NaN-tic.com
+# Copyright (C) 2013 Tadeus Prastowo <tadeus.prastowo@infi-nity.com>
+#                         Vikasa Infinity Anugrah <http://www.infi-nity.com>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -26,14 +29,24 @@
 #
 ##############################################################################
 
+try:
+    import release
+    import report
+    import pooler
+    from osv import orm, osv, fields
+    import tools
+    import netsvc
+except ImportError:
+    import openerp
+    from openerp import release
+    from openerp import report
+    from openerp import pooler
+    from openerp.osv import orm, osv, fields
+    from openerp import tools
+    from openerp import netsvc
+
 import os
-import report
-import pooler
-from osv import orm, osv, fields
-import tools
 import tempfile
-import netsvc
-import release
 import logging
 
 from JasperReports import *
@@ -89,7 +102,7 @@ class Report:
         logger.info("Requested report: '%s'" % self.reportPath)
         self.report = JasperReport( self.reportPath )
 
-        # Create temporary input (XML) and output (PDF) files 
+        # Create temporary input (XML) and output (PDF) files
         fd, dataFile = tempfile.mkstemp()
         os.close(fd)
         fd, outputFile = tempfile.mkstemp()
@@ -109,7 +122,7 @@ class Report:
                 generator = CsvBrowseDataGenerator( self.report, self.model, self.pool, self.cr, self.uid, self.ids, self.context )
             generator.generate( dataFile )
             self.temporaryFiles += generator.temporaryFiles
-        
+
         subreportDataFiles = []
         for subreportInfo in self.report.subreports():
             subreport = subreportInfo['report']
@@ -138,7 +151,7 @@ class Report:
                 else:
                     generator = CsvBrowseDataGenerator( subreport, self.model, self.pool, self.cr, self.uid, self.ids, self.context )
                 generator.generate( subreportDataFile )
-                
+
 
         # Call the external java application that will generate the PDF file in outputFile
         pages = self.executeReport( dataFile, outputFile, subreportDataFiles )
@@ -191,7 +204,7 @@ class Report:
         port = tools.config['db_port'] or '5432'
         dbname = self.cr.dbname
         return 'jdbc:postgresql://%s:%s/%s' % ( host, port, dbname )
-    
+
     def userName(self):
         return tools.config['db_user'] or self.systemUserName()
 
@@ -200,7 +213,7 @@ class Report:
 
     def executeReport(self, dataFile, outputFile, subreportDataFiles):
         locale = self.context.get('lang', 'en_US')
-        
+
         connectionParameters = {
             'output': self.outputFormat,
             #'xml': dataFile,
@@ -226,8 +239,8 @@ class Report:
 class report_jasper(report.interface.report_int):
     def __init__(self, name, model, parser=None ):
         # Remove report name from list of services if it already
-        # exists to avoid report_int's assert. We want to keep the 
-        # automatic registration at login, but at the same time we 
+        # exists to avoid report_int's assert. We want to keep the
+        # automatic registration at login, but at the same time we
         # need modules to be able to use a parser for certain reports.
         if release.major_version == '5.0':
             if name in netsvc.SERVICES:
@@ -277,7 +290,7 @@ if release.major_version == '5.0':
         report_jasper( name, model )
 
 
-    # This hack allows automatic registration of jrxml files without 
+    # This hack allows automatic registration of jrxml files without
     # the need for developers to register them programatically.
 
     old_register_all = report.interface.register_all
