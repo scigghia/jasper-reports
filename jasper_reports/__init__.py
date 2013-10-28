@@ -1,7 +1,10 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2008-2012 NaN Projectes de Programari Lliure, S.L.
 #                         http://www.NaN-tic.com
+# Copyright (C) 2013 Tadeus Prastowo <tadeus.prastowo@infi-nity.com>
+#                         Vikasa Infinity Anugrah <http://www.infi-nity.com>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -25,10 +28,17 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
+
 from jasper_report import *
 from report_xml import *
 import wizard
 
-import release
-if release.major_version != '5.0':
-    from http_server import *
+try:
+    import release
+    if release.major_version != '5.0':
+        from http_server import *
+except ImportError:
+    import openerp
+    from openerp import release
+    if release.major_version != '5.0':
+        from openerp.service.http_server import *

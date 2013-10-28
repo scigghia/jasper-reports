@@ -1,7 +1,10 @@
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2008-2012 NaN Projectes de Programari Lliure, S.L.
 #                         http://www.NaN-tic.com
+# Copyright (C) 2013 Tadeus Prastowo <tadeus.prastowo@infi-nity.com>
+#                         Vikasa Infinity Anugrah <http://www.infi-nity.com>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -29,8 +32,16 @@
 import os
 from lxml import etree
 import re
-from tools.safe_eval import safe_eval
-import tools
+
+try:
+    import release
+    from tools.safe_eval import safe_eval
+    import tools
+except ImportError:
+    import openerp
+    from openerp import release
+    from openerp.tools.safe_eval import safe_eval
+    from openerp import tools
 
 dataSourceExpressionRegExp = re.compile( r"""\$P\{(\w+)\}""" )
 
@@ -121,10 +132,10 @@ class JasperReport:
             }
             fieldNames.append( name )
         return fields, fieldNames
-    
+
     def extractProperties(self):
         # The function will read all relevant information from the jrxml file
-            
+
         doc = etree.parse( self._reportPath )
 
         # Define namespaces
@@ -132,14 +143,14 @@ class JasperReport:
         nss = {'jr': ns}
 
         # Language
-        
+
         # Note that if either queryString or language do not exist the default (from the constructor)
         # is XPath.
         langTags = doc.xpath( '/jr:jasperReport/jr:queryString', namespaces=nss )
         if langTags:
             if langTags[0].get('language'):
                 self._language = langTags[0].get('language').lower()
-        
+
         # Relations
         relationTags = doc.xpath( '/jr:jasperReport/jr:property[@name="OPENERP_RELATIONS"]', namespaces=nss )
         if relationTags and 'value' in relationTags[0].keys():
@@ -209,7 +220,7 @@ class JasperReport:
             modelTags = tag.xpath( '//jr:reportElement/jr:property[@name="OPENERP_MODEL"]', namespaces=nss )
             if modelTags and 'value' in modelTags[0].keys():
                 model = modelTags[0].get('value')
-            
+
             pathPrefix = ''
             pathPrefixTags = tag.xpath( '//jr:reportElement/jr:property[@name="OPENERP_PATH_PREFIX"]', namespaces=nss )
             if pathPrefixTags and 'value' in pathPrefixTags[0].keys():
@@ -239,7 +250,7 @@ class JasperReport:
             })
             for subsubInfo in subreport.subreports():
                 subsubInfo['depth'] += 1
-                # Note hat 'parameter' (the one used to pass report's DataSource) must be 
+                # Note hat 'parameter' (the one used to pass report's DataSource) must be
                 # the same in all reports
                 self._subreports.append( subsubInfo )
 
@@ -294,7 +305,7 @@ class JasperReport:
             modelTags = tag.xpath( '../../jr:reportElement/jr:property[@name="OPENERP_MODEL"]', namespaces=nss )
             if modelTags and 'value' in modelTags[0].keys():
                 model = modelTags[0].get('value')
-            
+
             pathPrefix = ''
             pathPrefixTags = tag.xpath( '../../jr:reportElement/jr:property[@name="OPENERP_PATH_PREFIX"]', namespaces=nss )
             if pathPrefixTags and 'value' in pathPrefixTags[0].keys():

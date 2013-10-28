@@ -5,6 +5,8 @@
 #                         http://www.NaN-tic.com
 # Copyright (c) 2012 Omar Castiñeira Saavedra <omar@pexego.es>
 #                         Pexego Sistemas Informáticos http://www.pexego.es
+# Copyright (C) 2013 Tadeus Prastowo <tadeus.prastowo@infi-nity.com>
+#                         Vikasa Infinity Anugrah <http://www.infi-nity.com>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -34,7 +36,15 @@ import csv
 import copy
 import base64
 from xml.dom.minidom import getDOMImplementation
-from osv import orm, osv, fields
+
+try:
+    import release
+    from osv import orm, osv, fields
+except ImportError:
+    import openerp
+    from openerp import release
+    from openerp.osv import orm, osv, fields
+
 import tempfile
 import codecs
 import logging
@@ -55,7 +65,7 @@ class BrowseDataGenerator(AbstractDataGenerator):
         self.imageFiles = {}
         self.temporaryFiles = []
         self.logger = logging.getLogger(__name__)
-    
+
     def warning(self, message):
         if self.logger:
             self.logger.warning("%s" % message)
@@ -124,7 +134,7 @@ class BrowseDataGenerator(AbstractDataGenerator):
             # If we wanted an INNER JOIN we wouldn't check for "value" and
             # return an empty currentRecords
             if value:
-                # Only 
+                # Only
                 newRecords = []
                 for v in value:
                     currentNewRecords = []
@@ -137,7 +147,7 @@ class BrowseDataGenerator(AbstractDataGenerator):
 
                 currentRecords = newRecords
         return currentRecords
-        
+
 class XmlBrowseDataGenerator(BrowseDataGenerator):
     # XML file generation works as follows:
     # By default (if no OPENERP_RELATIONS property exists in the report) a record will be created
@@ -229,7 +239,7 @@ class XmlBrowseDataGenerator(BrowseDataGenerator):
             elif value == False:
                 value = ''
             elif field_type == 'date':
-                value = '%s 00:00:00' % str(value) 
+                value = '%s 00:00:00' % str(value)
             elif field_type == 'binary':
                 imageId = (record.id, field)
                 if imageId in self.imageFiles:
@@ -384,7 +394,7 @@ class CsvBrowseDataGenerator(BrowseDataGenerator):
             elif value in (False,None):
                 value = ''
             elif field_type == 'date':
-                value = '%s 00:00:00' % str(value) 
+                value = '%s 00:00:00' % str(value)
             elif field_type == 'binary':
                 imageId = (record.id, field)
                 if imageId in self.imageFiles:
