@@ -48,6 +48,7 @@ class create_data_template(osv.osv_memory):
     _description = 'Create data template'
 
     def action_create_xml(self, cr, uid, ids, context=None):
+        this = self.browse(cr, uid, ids)[0]
         for data in  self.read(cr, uid, ids, context=context):
             model = self.pool.get('ir.model').browse(cr, uid, data['model'][0], context=context)
             xml = self.pool.get('ir.actions.report.xml').create_xml(cr, uid, model.model, data['depth'], context)
@@ -55,7 +56,15 @@ class create_data_template(osv.osv_memory):
                 'data' : base64.encodestring( xml ),
                 'filename': 'template.xml'
             })
-        return True
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'jasper.create.data.template',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': this.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
 
     _columns = {
         'model': fields.many2one('ir.model', 'Model', required=True),
